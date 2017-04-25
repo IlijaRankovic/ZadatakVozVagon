@@ -32,10 +32,9 @@ public class VagonNit extends Thread {
             do {
                 synchronized (vagon)
                 {
-                    vagon.setTeret(0.0);
                     if (vagon.getTeret() < vagon.getNosivost())
                     {
-                        
+
                     }
                 }
                 try
