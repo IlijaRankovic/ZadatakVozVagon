@@ -14,30 +14,51 @@ import java.util.List;
 /**
  * Created by androiddevelopment on 25.4.17..
  */
-public class Zadatak4BrisanjeVrednosti {
+public class VagonNit extends Thread {
+
     static Dao<Voz,Integer> vozDao;
     static Dao<Vagon,Integer> vagonDao;
 
+    private Vagon vagon;
+    private String oznaka;
+
+    public VagonNit(Vagon vagon, String oznaka){
+        this.vagon = vagon;
+        this.oznaka = oznaka;
+    }
+
+        public void run()
+        {
+            do {
+                synchronized (vagon)
+                {
+                    vagon.setTeret(0.0);
+                    if (vagon.getTeret() < vagon.getNosivost())
+                    {
+                        
+                    }
+                }
+                try
+                {
+                    this.sleep(2000);
+                } catch (InterruptedException e)
+                {
+                    e.printStackTrace();
+                }
+            }while (vagon.getTeret() < vagon.getNosivost());
+
+        }
+
     public static void main(String[] args) {
+
         ConnectionSource conn = null;
 
         try {
-            conn = new JdbcConnectionSource("jdbc:sqlite:vozVagon.db");
+            conn = new JdbcConnectionSource ("jdbc:sqlite:vozVagon.db");
 
             vozDao = DaoManager.createDao(conn, Voz.class);
             vagonDao = DaoManager.createDao(conn, Vagon.class);
 
-            List<Vagon> vagon = vagonDao.queryForAll();
-            for(Vagon v:vagon)
-                System.out.println("Vagon = " + v);
-
-            List<Vagon> pronadjenVagon=vagonDao.queryForEq(Vagon.POLJE_NOSIVOST, 10);
-            Vagon zaBrisanje= pronadjenVagon.get(0);
-            vagonDao.delete(zaBrisanje);
-
-            vagon = vagonDao.queryForAll();
-            for(Vagon v:vagon)
-                System.out.println("Vagon = " + v);
 
         } catch (SQLException e) {
             e.printStackTrace();

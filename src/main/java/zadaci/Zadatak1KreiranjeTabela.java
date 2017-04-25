@@ -24,6 +24,7 @@ public class Zadatak1KreiranjeTabela {
 
             TableUtils.createTable(conn, Voz.class);
             TableUtils.createTable(conn, Vagon.class);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }finally {
